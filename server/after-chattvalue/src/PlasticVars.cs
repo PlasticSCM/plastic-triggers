@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace JenkinsPlug
+namespace JenkinsTrigger
 {
     internal class PlasticVars
     {
@@ -22,7 +22,6 @@ namespace JenkinsPlug
             while ((line = Console.ReadLine()) != null)
             {
                 result.Add(line.Trim());
-                Console.WriteLine("trigger line:[" + line + "]");
             }
 
             if (result.Count == 0)
@@ -47,17 +46,30 @@ namespace JenkinsPlug
 
             if (bIsValueLastArg)
             {
-                attrValueParsed = pendingToParseLine.Substring(indexOfValue + "value:".Length);
-                attrNameParsed = pendingToParseLine.Substring(indexOfAttrName + "attribute:".Length, indexOfValue  - "attribute:".Length);
+                attrValueParsed = pendingToParseLine.Substring(
+                    indexOfValue + "value:".Length);
+
+                attrNameParsed = pendingToParseLine.Substring(
+                    indexOfAttrName + "attribute:".Length, indexOfValue  - "attribute:".Length);
             }
             else
             {
-                attrNameParsed = pendingToParseLine.Substring(indexOfAttrName + "attribute:".Length);
-                attrValueParsed = pendingToParseLine.Substring(indexOfValue + "value:".Length, indexOfAttrName - "value:".Length);
+                attrNameParsed = pendingToParseLine.Substring(
+                    indexOfAttrName + "attribute:".Length);
+
+                attrValueParsed = pendingToParseLine.Substring(
+                    indexOfValue + "value:".Length, indexOfAttrName - "value:".Length);
             }
 
-            AttrValue = attrValueParsed.Replace("\"", string.Empty).Replace("'", string.Empty).Trim();
-            AttrName = attrNameParsed.Replace("\"", string.Empty).Replace("'", string.Empty).Trim();            
+            AttrValue = attrValueParsed
+                .Replace("\"", string.Empty)
+                .Replace("'", string.Empty)
+                .Trim();
+
+            AttrName = attrNameParsed
+                .Replace("\"", string.Empty)
+                .Replace("'", string.Empty)
+                .Trim();            
         }
 
         internal bool Validate(out string errorConfigMsg)

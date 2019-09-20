@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
 
-namespace JenkinsPlug
+namespace JenkinsTrigger
 {
     class Program
     {
         static int Main(string[] args)
         {
+            System.Threading.Thread.Sleep(10000);
             try
             {
                 string confFilePath = Path.GetFullPath(Path.Combine(
@@ -42,7 +43,7 @@ namespace JenkinsPlug
 
                 string plasticObjectSpec = BuildPlasticObjectSpec(plasticVars);
 
-                if (!HasToLaunchBuild(config, plasticVars, plasticObjectSpec))
+                if (!TriggerRules.HasToLaunchBuild(config, plasticVars, plasticObjectSpec))
                 {
                     Console.WriteLine("No need to launch a jenkins build with specified settings.");
                     return 0;
@@ -121,76 +122,7 @@ namespace JenkinsPlug
                 plasticVars.Server;
         }
 
-        static bool HasToLaunchBuild(Config config, PlasticVars plasticVars, string plasticObjectSpec)
-        {
-            return 
-                IsRepositoryMatch(config.RawReposToWatch, plasticVars.Repository) &&
-                !IsSpecMarkedToSkip(config.RawObjectSpecPrefixesToSkip, plasticObjectSpec) && 
-                IsAttributeMatch(config, plasticVars);
-        }
-
-        static bool IsRepositoryMatch(string rawReposToWatch, string repository)
-        {
-            if (string.IsNullOrWhiteSpace(rawReposToWatch))
-                return true;
-
-            string[] reposToWatch = rawReposToWatch.Split(
-                new char[] { ',', ';' }, StringSplitOptions.RemoveEmptyEntries);
-
-            if (reposToWatch == null || reposToWatch.Length == 0)
-                return false;
-
-            foreach (string repoConfiguredToWatch in reposToWatch)
-            {
-                if (string.IsNullOrWhiteSpace(repoConfiguredToWatch))
-                    continue;
-
-                if (!repository.Trim().Equals(repoConfiguredToWatch.Trim()))
-                    continue;
-
-                return true;
-            }
-
-            return false;
-        }
-
-        static bool IsSpecMarkedToSkip(string rawObjectSpecPrefixesToSkip, string plasticObjectSpec)
-        {
-            if (string.IsNullOrWhiteSpace(rawObjectSpecPrefixesToSkip))
-                return false;
-
-            string[] filters = rawObjectSpecPrefixesToSkip.Split(
-                new char[] { ',', ';' },StringSplitOptions.RemoveEmptyEntries);
-
-            if (filters == null || filters.Length == 0)
-                return false;
-
-            foreach(string filter in filters)
-            {
-                if (string.IsNullOrWhiteSpace(filter))
-                    continue;
-
-                if (!plasticObjectSpec.StartsWith(filter.Trim()))
-                    continue;
-
-                return true;
-            }
-
-            return false;
-        }
-
-        static bool IsAttributeMatch(Config config, PlasticVars plasticVars)
-        {
-            if (string.IsNullOrEmpty(config.AttributeNameToWatch) ||
-                string.IsNullOrEmpty(config.AttributeValueToWatch))
-            {
-                return true; //will be reported later in config file params check, but at this point we avoid a nullref.
-            }
-
-            return
-                config.AttributeNameToWatch.Equals(plasticVars.AttrName, StringComparison.InvariantCultureIgnoreCase) &&
-                config.AttributeValueToWatch.Equals(plasticVars.AttrValue, StringComparison.InvariantCultureIgnoreCase);
-        }
+        
 
         static class HttpClientBuilder
         {

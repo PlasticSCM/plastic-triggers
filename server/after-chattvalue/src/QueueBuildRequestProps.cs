@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace JenkinsPlug
+namespace JenkinsTrigger
 {
     internal static class QueueBuildRequestProps
     {

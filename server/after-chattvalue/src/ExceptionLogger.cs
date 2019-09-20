@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JenkinsPlug
+namespace JenkinsTrigger
 {
     internal static class ExceptionLogger
     {

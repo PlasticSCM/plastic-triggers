@@ -1,4 +1,4 @@
-﻿namespace JenkinsPlug
+﻿namespace JenkinsTrigger
 {
     public class BuildProperty
     {

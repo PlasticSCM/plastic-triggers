@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 
-namespace JenkinsPlug
+namespace JenkinsTrigger
 {
     public static class ProjectDescriptor
     {

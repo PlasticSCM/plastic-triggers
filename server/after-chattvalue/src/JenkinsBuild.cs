@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Xml;
 
-namespace JenkinsPlug
+namespace JenkinsTrigger
 {
     internal static class JenkinsBuild
     {
@@ -200,15 +200,15 @@ namespace JenkinsPlug
                         "Error in GetAsync on endpoint [{0}] after {1} retries (max retries: {2}). Error:{3}",
                         buildIdEndpoint,
                         retries,
-                        MAX_GET_ASYNC_RETRIES_MONO_ISSUE_HACK,
+                        MAX_ASYNC_RETRIES,
                         ExceptionLogger.GetMessageToLog(e)));
 
                     ++retries;
 
-                    if (retries > MAX_GET_ASYNC_RETRIES_MONO_ISSUE_HACK)
+                    if (retries > MAX_ASYNC_RETRIES)
                         throw;
 
-                    Task.Delay(retries * WAIT_MILLIS_GET_ASYNC_MONO_ISSUE_HACK).Wait();
+                    Task.Delay(retries * WAIT_MILLIS_ASYNC).Wait();
                     continue;
                 }
             }
@@ -232,15 +232,15 @@ namespace JenkinsPlug
                         "Error in PostAsync on endpoint [{0}] after {1} retries (max retries: {2}). Error:{3}",
                         endpoint,
                         retries,
-                        MAX_GET_ASYNC_RETRIES_MONO_ISSUE_HACK,
+                        MAX_ASYNC_RETRIES,
                         ExceptionLogger.GetMessageToLog(e)));
 
                     ++retries;
 
-                    if (retries > MAX_GET_ASYNC_RETRIES_MONO_ISSUE_HACK)
+                    if (retries > MAX_ASYNC_RETRIES)
                         throw;
 
-                    Task.Delay(retries * WAIT_MILLIS_GET_ASYNC_MONO_ISSUE_HACK).Wait();
+                    Task.Delay(retries * WAIT_MILLIS_ASYNC).Wait();
                     continue;
                 }
             }
@@ -288,12 +288,6 @@ namespace JenkinsPlug
             return crumb;
         }
 
-        internal const string SUCESSFUL_BUILD_TAG = "SUCCESS";
-        internal const string FINISHED_BUILD_TAG = "finished";
-        const string QUEUED_BUILD_TAG = "queued";
-        const string UNDEFINED_BUILD_TAG = "undefined";
-        const string INPROGRESS_BUILD_TAG = "in_progress";
-
         const string GET_CRUMB_URI = "crumbIssuer/api/xml";
         const string GET_JOB_CONFIG_URI = "job/{0}/config.xml";
 
@@ -301,9 +295,7 @@ namespace JenkinsPlug
 
         const string GET_QUEUE_URI = "queue/api/xml";
 
-        const string QUERY_BUILD_URI_FORMAT = "job/{0}/{1}/api/xml";
-
-        const int MAX_GET_ASYNC_RETRIES_MONO_ISSUE_HACK = 5;
-        const int WAIT_MILLIS_GET_ASYNC_MONO_ISSUE_HACK = 500;
+        const int MAX_ASYNC_RETRIES = 5;
+        const int WAIT_MILLIS_ASYNC = 500;
     }
 }

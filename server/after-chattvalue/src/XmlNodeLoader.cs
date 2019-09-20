@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Xml;
 
-namespace JenkinsPlug
+namespace JenkinsTrigger
 {
     internal static class XmlNodeLoader
     {
