@@ -13,15 +13,15 @@ The trigger is written in C# .NET Framework (4.5 or above).
 * Copy the configuration file `jenkinstrigger.conf` in the same path as well.
 * Edit the `jenkinstrigger.conf` at your convenience: In this file you can configure the Jenkins server url, credentials, and the job to be launched. More info below.
 * Enable this trigger to your Plastic Server to be executed when the attribute of a plastic branch / changeset / label is set, by issuing the following plastic command as an example:
-** `cm trigger create after-chattvalue JenkinsBuildOnAttrChange C:\plastic_triggers\jenkins\jenkinstrigger.exe`
+`cm trigger create after-chattvalue JenkinsBuildOnAttrChange C:\plastic_triggers\jenkins\jenkinstrigger.exe`
 
 ## 2- Configuring the trigger
 The `jenkinstrigger.conf` file is self-documented and pretty easy to tweak. It's a simple, line-by-line `key=value` file where you can configure the following parameters:
-* url: the Jenkins server location. Example: 'url=http://my-jenkins-server:8080'
+* url: the Jenkins server location. Example: `url=http://my-jenkins-server:8080`
 * user: valid Jenkins server user, capable of triggering builds
 * password: the password for the Jenkins server configured.
-* job: the Jenkins job to be executed. Example: 'debug-pipeline-job'
-* attrname: the name of the Plastic attribute for your branches / changesets / labels that will be used to determine whether launch this trigger or not. Example: 'attrname=status'
-* attrvalue: value of specified the attribute name configured above that means the Jenkins build has to be launched. Example: 'attrvalue=resolved'
-* repositories: optional: comma-separated list of repositories in the Plastic Server allowed to launch the jenkins job. Leave empty to enable all the repositories in the plastic server. Example: 'repositories=default,tools'
-* skipprefixes: optional: comma-separated list: the trigger will ignore the branches/labels/changesets matching with the prefixes configured in this list
+* job: the Jenkins job to be executed. Example: `job=debug-pipeline-job`
+* attrname: the name of the Plastic attribute for your branches / changesets / labels that will be used to determine whether launch this trigger or not. Example: `attrname=status`
+* attrvalue: value of specified the attribute name configured above that means the Jenkins build has to be launched. Example: `attrvalue=resolved`
+* repositories: optional: comma-separated list of repositories in the Plastic Server allowed to launch the jenkins job. Leave empty to enable all the repositories in the plastic server. Example: `repositories=default,tools`
+* skipprefixes: optional: comma-separated list: the trigger will ignore the branches/labels/changesets matching with the prefixes configured in this list. Example: ignore all changesets and main branch: `skipprefixes=cs, br:/main@, /main@, main@`
