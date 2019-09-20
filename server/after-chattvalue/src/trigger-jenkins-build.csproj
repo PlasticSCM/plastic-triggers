@@ -46,6 +46,7 @@
     <Compile Include="ProjectDescriptor.cs" />
     <Compile Include="ProjectXmlVersionFix.cs" />
     <Compile Include="QueueBuildRequestProps.cs" />
+    <Compile Include="TriggerRules.cs" />
     <Compile Include="XmlNodeLoader.cs" />
   </ItemGroup>
   <ItemGroup>
